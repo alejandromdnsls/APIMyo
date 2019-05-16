@@ -14,6 +14,7 @@ class LearningSet:
             else:
                 self.samples[sample.getClass()] = [sample]
         self.samples = self.doAvg()
+        self.store()
 
     def doAvg(self):
         out = dict()
@@ -37,3 +38,8 @@ class LearningSet:
 
     def getValues(self):
         return self.samples
+
+    def store(self):
+        context = signMoveConexion()
+        context.insert(self.samples)
+        context.closeBD()

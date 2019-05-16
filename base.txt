@@ -1,0 +1,70 @@
+*******Creacion de tablas******
+
+create table lsm(
+id_lsm integer primary key,
+name_lsm varchar(20) not null
+);
+
+create table sign(
+sd1 real NOT NULL,
+sd2 real NOT NULL,
+sd3 real NOT NULL,
+sd4 real NOT NULL,
+sd5 real NOT NULL,
+sd6 real NOT NULL,
+sd7 real NOT NULL,
+sd8 real NOT NULL,
+id_lsm integer not null,
+FOREIGN KEY(id_lsm) REFERENCES lsm(id__lsm)
+);
+
+CREATE TABLE move(
+segment1 real not null,
+segment2 real not null,
+segment3 real not null,
+segment4 real not null,
+segment5 real not null,
+segment6 real not null,
+segment7 real not null,
+segment8 real not null,
+segment9 real not null,
+segment10 real not null,
+segment11 real not null,
+segment12 real not null,
+segment13 real not null,
+segment14 real not null,
+segment15 real not null,
+segment16 real not null,
+segment17 real not null,
+segment18 real not null,
+segment19 real not null,
+segment20 real not null,
+segment21 real not null,
+segment22 real not null,
+segment23 real not null,
+segment24 real not null,
+segment25 real not null,
+segment26 real not null,
+segment27 real not null,
+segment28 real not null,
+segment29 real not null,
+segment30 real not null,
+segment31 real not null,
+segment32 real not null,
+axis text not null,
+id_lsm integer not null,
+FOREIGN KEY(id_lsm) REFERENCES lsm(id_lsm)
+);
+
+create table sample(
+  id_sample integer primary key,
+  id_lsm integer not null,
+  foreign key(id_lsm) references lsm(id_lsm)
+);
+
+*********INSERT**************
+insert into lsm(name_lsm) values('b');
+insert into lsm(name_lsm) values('c');
+insert into lsm(name_lsm) values('cocacola');
+insert into lsm(name_lsm) values('viernes');
+insert into lsm(name_lsm) values('z');
