@@ -8,6 +8,7 @@ class Sample:
         self.segmentX = list()
         self.segmentY = list()
         self.segmentZ = list()
+        self.clase = ''
 
     def arithmeticMean(self, vals):
         val = 0
@@ -26,6 +27,19 @@ class Sample:
             val = math.sqrt(val / len(sensor))
             self.standardDev.append(val)
         #print(self.standardDev)
+
+    def getStandarDeviation(self):
+        return self.standardDev
+
+    def getSegmentX(self):
+        return self.segmentX
+
+    def getSegmentY(self):
+        return self.segmentY
+
+    def getSegmentZ(self):
+        return self.segmentZ
+
 
     def segmentation(self, vals, axis):
         aux = list()
@@ -56,3 +70,9 @@ class Sample:
         del aux
         del aux1
         #print(aux1)
+
+    def setClass(self, clase):
+        self.clase = clase
+
+    def getClass(self):
+        return self.clase
