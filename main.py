@@ -7,7 +7,9 @@ from knnGesto import *
 from knnMove import *
 from RecoverySet import *
 from knnIdeograma import *
-import glob, random
+import glob, random, time
+
+porcentaje = 90
 
 samples = list()
 ls = LearningSet()
@@ -15,7 +17,8 @@ rs = RecoverySet()
 objKnnGesto = knnGesto()
 objKnnMove = knnMove()
 objKnnIdeograma = knnIdeograma()
-archivos = glob.glob("Datos\\Test\\*.xlsx")
+#startLearning = time.time()
+archivos = glob.glob("Datos\\Muestra\\*.xlsx")
 
 for row in archivos:
     sensores = Sensors()
@@ -37,12 +40,12 @@ for row in archivos:
     sensores.setVector('emg8', data.read()[10])
 
     #print(sensores.getClass())
-
     sample.setClass(sensores.getClass())
     sample.standardDeviation(sensores.getEmg())
     sample.segmentation(sensores.getVector('ax'), 'ax')
     sample.segmentation(sensores.getVector('ay'), 'ay')
     sample.segmentation(sensores.getVector('az'), 'az')
+    print (row, len(sample.getSegmentX()), len(sample.getSegmentY()), len(sample.getSegmentZ()))
 
     samples.append(sample)
 
@@ -52,15 +55,15 @@ for row in archivos:
 i = float(len(samples))/100
 random.shuffle(samples)
 
-ls.setValues(samples[:int(i*80)])
-rs.setValues(samples[int(i*80):])
+ls.setValues(samples[:int(i*porcentaje)])
+rs.setValues(samples[int(i*porcentaje):])
 
 """print(ls.getValues())
 print(rs.getValues())
-for row in samples[:int(i*70)]:
+for row in samples[:int(i*80)]:
     print (row.getClass())
 print("*"*10)
-for row in samples[int(i*70):]:
+for row in samples[int(i*80):]:
     print(row.getClass())"""
 
 objKnnGesto.learning(ls.getValues())
@@ -68,10 +71,25 @@ objKnnMove.learning(ls.getValues())
 
 lsIdeogramas = list()
 
-for sample in samples[:int(i*80)]:
+for sample in samples[:int(i*porcentaje)]:
     id_gesto = objKnnGesto.recovery(sample)
     id_move = objKnnMove.recovery(sample)
+    #print (sample.getClass(), id_move, id_gesto)
     lsIdeogramas.append([sample.getClass(), int(id_gesto), int(id_move)])
 
 objKnnIdeograma.learning(lsIdeogramas)
-#objKnnMove.recovery(rs.getValues())
+#endLearning = time.time()
+
+count = 0
+for sample in rs.getValues():
+    startMuestra = time.time()
+    id_gesto = objKnnGesto.recovery(sample)
+    id_move = objKnnMove.recovery(sample)
+    nameIdeograma = objKnnIdeograma.recovery([int(id_gesto), int(id_move)])
+    endMuestra = time.time()
+    print('Muestra:', endMuestra - startMuestra)
+    #print (nameIdeograma, sample.getClass(), nameIdeograma == sample.getClass())
+    if nameIdeograma == sample.getClass():
+        count = count + 1
+print(count, len(rs.getValues()))
+#print('Aprendizaje:', endLearning - startLearning)
