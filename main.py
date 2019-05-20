@@ -3,20 +3,26 @@ from dataReader import *
 from Sensors import *
 from Sample import *
 from LearningSet import *
-import glob
+from knnGesto import *
+from knnMove import *
+from RecoverySet import *
+from knnIdeograma import *
+import glob, random
 
-archivos = glob.glob("Datos/Test/*.xlsx")
 samples = list()
-
-aux = Sensors()
+ls = LearningSet()
+rs = RecoverySet()
+objKnnGesto = knnGesto()
+objKnnMove = knnMove()
+objKnnIdeograma = knnIdeograma()
+archivos = glob.glob("Datos\\Test\\*.xlsx")
 
 for row in archivos:
     sensores = Sensors()
     sample = Sample()
     data = dataReader(row)
 
-    sensores.setClass(row.split('.')[0].split('/')[-1].split('_')[0])
-
+    sensores.setClass(row.split('.')[0].split('\\')[-1].split('_')[0])
 
     sensores.setVector('ax', data.read()[0])
     sensores.setVector('ay', data.read()[1])
@@ -40,17 +46,32 @@ for row in archivos:
 
     samples.append(sample)
 
-    aux = sensores
-
     del sensores
     del sample
 
+i = float(len(samples))/100
+random.shuffle(samples)
 
-i = len(samples)/100
-ls = LearningSet()
+ls.setValues(samples[:int(i*80)])
+rs.setValues(samples[int(i*80):])
 
-ls.setValues(samples[:int(i*70)])
-print(len(ls.getValues()))
-"""for num in range(int(i*70),len(samples)):
-    print (num)
-"""
+"""print(ls.getValues())
+print(rs.getValues())
+for row in samples[:int(i*70)]:
+    print (row.getClass())
+print("*"*10)
+for row in samples[int(i*70):]:
+    print(row.getClass())"""
+
+objKnnGesto.learning(ls.getValues())
+objKnnMove.learning(ls.getValues())
+
+lsIdeogramas = list()
+
+for sample in samples[:int(i*80)]:
+    id_gesto = objKnnGesto.recovery(sample)
+    id_move = objKnnMove.recovery(sample)
+    lsIdeogramas.append([sample.getClass(), int(id_gesto), int(id_move)])
+
+objKnnIdeograma.learning(lsIdeogramas)
+#objKnnMove.recovery(rs.getValues())

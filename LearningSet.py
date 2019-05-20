@@ -1,25 +1,34 @@
 # coding=utf-8
 from Sample import *
 
-
 class LearningSet:
 
     def __init__ (self):
-        self.samples = dict()
+        self.samples = list()
 
     def setValues(self, samples):
-        for sample in samples:
-            if sample.getClass() in self.samples:
-                self.samples[sample.getClass()].append(sample)
-            else:
-                self.samples[sample.getClass()] = [sample]
-        self.samples = self.doAvg()
-        self.store()
-
-    def doAvg(self):
         out = dict()
-        for key in self.samples:
-            for sample in self.samples[key]:
+        for sample in samples:
+            if sample.getClass() in out:
+                out[sample.getClass()].append(sample)
+            else:
+                out[sample.getClass()] = [sample]
+        out = self.doAvg(out)
+        for key in out:
+            aux = Sample()
+            aux.setClass(key)
+            aux.setStandarDeviation(out[key][:8])
+            aux.setSegment(out[key][8:40],'X')
+            aux.setSegment(out[key][40:72],'Y')
+            aux.setSegment(out[key][72:],'Z')
+            self.samples.append(aux)
+            del aux
+        #self.store()
+
+    def doAvg(self, data):
+        out = dict()
+        for key in data:
+            for sample in data[key]:
                 if key in out:
                     for emg in range(len(sample.getStandarDeviation())):
                         out[key][emg] = out[key][emg] + sample.getStandarDeviation()[emg]
@@ -33,13 +42,15 @@ class LearningSet:
                     out[key] = sample.getStandarDeviation() + sample.getSegmentX() + sample.getSegmentY() + sample.getSegmentZ()
 
             for val in range(len(out[key])):
-                out[key][val] = out[key][val] / len(self.samples[key])
+                out[key][val] = out[key][val] / len(data[key])
         return out
 
     def getValues(self):
         return self.samples
 
     def store(self):
-        context = signMoveConexion()
+        for key in self.samples:
+            print (key)
+        """context = signMoveConexion()
         context.insert(self.samples)
-        context.closeBD()
+        context.closeBD()"""

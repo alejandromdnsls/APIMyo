@@ -41,6 +41,16 @@ class Sample:
     def getSegmentZ(self):
         return self.segmentZ
 
+    def setStandarDeviation(self, data):
+        self.standardDev = data
+
+    def setSegment(self, data, axis):
+        if axis == 'X':
+            self.segmentX = data
+        elif axis == 'Y':
+            self.segmentY = data
+        elif axis == 'Z':
+            self.segmentZ = data
 
     def segmentation(self, vals, axis):
         aux = list()

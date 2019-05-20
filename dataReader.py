@@ -21,5 +21,5 @@ class dataReader:
         return out
 
 if __name__ == '__main__':
-    datos = dataReader('Datos/Muestra/a10.xlsx')
+    datos = dataReader('Datos//Muestra//a10.xlsx')
     print(len(datos.read()))
