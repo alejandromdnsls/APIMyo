@@ -18,7 +18,7 @@ objKnnGesto = knnGesto()
 objKnnMove = knnMove()
 objKnnIdeograma = knnIdeograma()
 #startLearning = time.time()
-archivos = glob.glob("Datos\\Muestra\\*.xlsx")
+archivos = glob.glob("Datos\\MuestraNuevo\\*.xlsx")
 
 for row in archivos:
     sensores = Sensors()
@@ -92,4 +92,5 @@ for sample in rs.getValues():
     if nameIdeograma == sample.getClass():
         count = count + 1
 print(count, len(rs.getValues()))
+print('Efectividad:', (count*100)/len(rs.getValues()))
 #print('Aprendizaje:', endLearning - startLearning)
