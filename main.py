@@ -9,7 +9,7 @@ from RecoverySet import *
 from knnIdeograma import *
 import glob, random, time
 
-porcentaje = 90
+porcentaje = 80
 
 samples = list()
 ls = LearningSet()
@@ -18,14 +18,18 @@ objKnnGesto = knnGesto()
 objKnnMove = knnMove()
 objKnnIdeograma = knnIdeograma()
 #startLearning = time.time()
+<<<<<<< HEAD
 archivos = glob.glob("Datos\\MuestraNuevo\\*.xlsx")
+=======
+archivos = glob.glob("Datos/Muestra/*.xlsx")
+>>>>>>> 90ad66a7b4fc925fe859ce8c7626a39a51e121f8
 
 for row in archivos:
     sensores = Sensors()
     sample = Sample()
     data = dataReader(row)
 
-    sensores.setClass(row.split('.')[0].split('\\')[-1].split('_')[0])
+    sensores.setClass(row.split('.')[0].split('/')[-1].split('_')[0])
 
     sensores.setVector('ax', data.read()[0])
     sensores.setVector('ay', data.read()[1])
@@ -94,3 +98,5 @@ for sample in rs.getValues():
 print(count, len(rs.getValues()))
 print('Efectividad:', (count*100)/len(rs.getValues()))
 #print('Aprendizaje:', endLearning - startLearning)
+
+print('Efectividad:', (count*100)/len(rs.getValues()))

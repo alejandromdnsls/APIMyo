@@ -1,38 +1,22 @@
 # coding=utf-8
 from math import sqrt
 from operator import itemgetter
+from SignMoveConexion import *
 
 class knnGesto:
 
     def learning(self, samples):
-        dbGesto = open('dbGesto.csv','w')
-        headers = ['id_gesto', 'name', 'emg1', 'emg2', 'emg3', 'emg4', 'emg5', 'emg6', 'emg7', 'emg8']
-        cad = ''
-        for head in headers:
-            cad = cad + head + ','
-        cad = cad[:-1] + '\n'
-        dbGesto.write(cad)
-
-        id = 0
-        for sample in samples:
-            cad = str(id) + ',' + sample.getClass() + ','
-            for emg in sample.getStandarDeviation():
-                cad = cad + str(emg) + ','
-            cad = cad[:-1] + '\n'
-            dbGesto.write(cad)
-
-            id = id + 1
-
-        dbGesto.close()
+        context = signMoveConexion()
+        context.insertSign(samples)
+        #context.closeBD()
 
     def recovery(self, sample):
-        dbGesto = open('dbGesto.csv','r')
         distances = list()
-        for row in dbGesto:
-            if row[:-1].split(',')[0] != 'id_gesto':
-                aux = row[:-1].split(',')
-                distances.append([aux[0], aux[1], self.distance(aux[2:], sample.getStandarDeviation())])
-        distances = sorted(distances, key=itemgetter(2))
+        context = signMoveConexion()
+        for registro in context.consultaSign():
+            distances.append([registro[0], registro[1], self.distance(registro[2:], sample.getStandarDeviation())])
+        distances = sorted(distances, key = itemgetter(2))
+        #context.closeBD()
         return distances[0][0]
 
     def recClass(self,sample):
