@@ -59,24 +59,44 @@ FOREIGN KEY(id_lsm) REFERENCES lsm(id_lsm)
 );
 
 create table ideogram(
-  id_ideogram primary key,
+  id_ideogram integer primary key,
   id_lsm integer not null,
   id_sign integer not null,
   id_move integer not null,
   FOREIGN KEY(id_lsm) REFERENCES lsm(id_lsm),
   FOREIGN KEY(id_sign) REFERENCES sign(id_sign),
   FOREIGN KEY(id_move) REFERENCES move(id_move)
-)
-
-create table sample(
-  id_sample integer primary key,
-  id_lsm integer not null,
-  foreign key(id_lsm) references lsm(id_lsm)
 );
 
 *********INSERT**************
+insert into lsm(name_lsm) values ('a');
 insert into lsm(name_lsm) values('b');
 insert into lsm(name_lsm) values('c');
+insert into lsm(name_lsm) values ('d');
+insert into lsm(name_lsm) values ('e');
+insert into lsm(name_lsm) values ('f');
+insert into lsm(name_lsm) values ('g');
+insert into lsm(name_lsm) values ('h');
+insert into lsm(name_lsm) values ('i');
+insert into lsm(name_lsm) values ('j');
+insert into lsm(name_lsm) values ('l');
+insert into lsm(name_lsm) values ('m');
+insert into lsm(name_lsm) values ('n');
+insert into lsm(name_lsm) values ('o');
+insert into lsm(name_lsm) values ('p');
+insert into lsm(name_lsm) values ('r');
+insert into lsm(name_lsm) values ('s');
+insert into lsm(name_lsm) values ('t');
+insert into lsm(name_lsm) values ('u');
+insert into lsm(name_lsm) values ('v');
+insert into lsm(name_lsm) values ('w');
+insert into lsm(name_lsm) values ('x');
+insert into lsm(name_lsm) values ('y');
+insert into lsm(name_lsm) values ('z');
 insert into lsm(name_lsm) values('cocacola');
 insert into lsm(name_lsm) values('viernes');
-insert into lsm(name_lsm) values('z');
+insert into lsm(name_lsm) values ('alto');
+insert into lsm(name_lsm) values ('debajo');
+insert into lsm(name_lsm) values ('gigante');
+insert into lsm(name_lsm) values ('encima');
+insert into lsm(name_lsm) values ('bajo');
