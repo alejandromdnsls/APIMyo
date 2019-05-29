@@ -7,9 +7,9 @@ from knnGesto import *
 from knnMove import *
 from RecoverySet import *
 from knnIdeograma import *
-import glob, random
+import glob, random, sys
 
-kfold = 309
+kfold = int(sys.argv[1])
 
 samples = list()
 objKnnGesto = knnGesto()
@@ -19,7 +19,7 @@ sets = list()
 eficiencia = list()
 eficienciaGesto = list()
 eficienciaMovimiento = list()
-archivos = glob.glob("Datos\\MuestraNuevo\\*.xlsx")
+archivos = glob.glob("Datos\\Movimiento\\*.xlsx")
 
 for row in archivos:
     sensores = Sensors()
@@ -113,6 +113,8 @@ for val in eficienciaMovimiento:
 totalGesto = 0
 for val in eficienciaGesto:
     totalGesto = totalGesto + val
+
+print('K:', kfold)
 print('Total Gesto:', totalGesto/len(eficiencia))
 print('Total Movimiento:', totalMove/len(eficiencia))
 print('Total ideogramas:', total/len(eficiencia))

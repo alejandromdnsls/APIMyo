@@ -6,9 +6,25 @@ from SignMoveConexion import *
 class knnGesto:
 
     def learning(self, samples):
-        context = signMoveConexion()
-        context.insertSign(samples)
-        #context.closeBD()
+        dbGesto = open('dbGesto.csv','w')
+        headers = ['id_gesto', 'name', 'emg1', 'emg2', 'emg3', 'emg4', 'emg5', 'emg6', 'emg7', 'emg8']
+        cad = ''
+        for head in headers:
+            cad = cad + head + ','
+        cad = cad[:-1] + '\n'
+        dbGesto.write(cad)
+
+        id = 0
+        for sample in samples:
+            cad = str(id) + ',' + sample.getClass() + ','
+            for emg in sample.getStandarDeviation():
+                cad = cad + str(emg) + ','
+            cad = cad[:-1] + '\n'
+            dbGesto.write(cad)
+
+            id = id + 1
+
+        dbGesto.close()
 
     def recovery(self, sample):
         distances = list()

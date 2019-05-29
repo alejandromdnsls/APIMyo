@@ -6,9 +6,36 @@ from SignMoveConexion import *
 class knnMove:
 
     def learning(self, samples):
-        context = signMoveConexion()
-        context.insertMove(samples)
-        context.closeBD()
+        dbMove = open('dbMove.csv','w')
+        headers = ['id_move', 'name', 'axis', 'seg1', 'seg2', 'seg3', 'seg4', 'seg5', 'seg6', 'seg7', 'seg8', 'seg9', 'seg10', 'seg11', 'seg12', 'seg13', 'seg14', 'seg15', 'seg16', 'seg17', 'seg18', 'seg19', 'seg20', 'seg21', 'seg22', 'seg23', 'seg24', 'seg25', 'seg26', 'seg27', 'seg28', 'seg29', 'seg30', 'seg31', 'seg32']
+        cad = ''
+        for head in headers:
+            cad = cad + head + ','
+        cad = cad[:-1] + '\n'
+        dbMove.write(cad)
+
+        id = 0
+        for sample in samples:
+            cad = str(id) + ',' + sample.getClass() + ',X,'
+            for seg in sample.getSegmentX():
+                cad = cad + str(seg) + ','
+            cad = cad[:-1] + '\n'
+            dbMove.write(cad)
+
+            cad = str(id) + ',' + sample.getClass() + ',Y,'
+            for seg in sample.getSegmentY():
+                cad = cad + str(seg) + ','
+            cad = cad[:-1] + '\n'
+            dbMove.write(cad)
+
+            cad = str(id) + ',' + sample.getClass() + ',Z,'
+            for seg in sample.getSegmentZ():
+                cad = cad + str(seg) + ','
+            cad = cad[:-1] + '\n'
+            dbMove.write(cad)
+            id = id + 1
+
+        dbMove.close()
 
     def recovery(self, sample):
         distances = list()
